@@ -2,9 +2,10 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.Student;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.example.demo.service.StudentService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,22 +14,28 @@ import java.util.List;
 @RequestMapping("/student")
 public class StudentController {
 
-    private List<Student> students = new ArrayList<>();
+//    private final StudentService studentService;
+//
+//    public StudentController(StudentService studentService) {
+//        this.studentService = studentService;
+//    }
+    @Autowired
+    private StudentService studentService;
 
     @GetMapping
     public List<Student> getStudents() {
-        return students;
+        return studentService.getAllStudents();
     }
 
     @PostMapping
     public String addStudent(@RequestBody Student student) {
-        students.add(student);
+        studentService.addStudent(student);
         return "Student added";
     }
 
     @DeleteMapping("/{id}")
     public String deleteStudent(@PathVariable int id) {
-        students.removeIf(s -> s.getId() == id);
+        studentService.deleteStudent(id);
         return "student removed";
     }
 }
