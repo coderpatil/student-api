@@ -1,6 +1,7 @@
 package com.example.demo.service;
 import com.example.demo.model.Student;
 import org.springframework.stereotype.Service;
+import com.example.demo.repository.StudentRepository;
 
 
 import java.util.ArrayList;
@@ -9,21 +10,26 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private List<Student> students = new ArrayList<>();
+    private final StudentRepository studentRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public List<Student> getAllStudents() {
-        return students;
+
+        return studentRepository.findAll();
     }
 
     @Override
     public void addStudent(Student student) {
-        students.add(student);
+        studentRepository.save(student);
     }
 
     @Override
     public void deleteStudent(int id) {
-        students.removeIf(s-> s.getId() == id);
+        studentRepository.deleteById(id);
     }
 
 }
