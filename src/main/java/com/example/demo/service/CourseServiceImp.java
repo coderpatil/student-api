@@ -5,6 +5,9 @@ import java.util.*;
 
 import com.example.demo.model.Course;
 import com.example.demo.repository.CourseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,8 +20,9 @@ public class CourseServiceImp implements CourseService{
     }
 
     @Override
-    public List<Course> getAllCourse() {
-        return courseRepository.findAll();
+    public Page<Course> getAllCourse(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return courseRepository.findAll(pageable);
     }
 
     @Override

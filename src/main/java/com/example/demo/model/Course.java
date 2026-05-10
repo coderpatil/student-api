@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Course {
@@ -12,8 +13,10 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
+    @NotBlank(message = "Course name is required")
     private String name;
 
+    @NotBlank(message = "Instructor name is required")
     private String instructor;
 
     public Course() {}

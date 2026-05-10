@@ -2,26 +2,32 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Course;
 import com.example.demo.service.CourseService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RestControllerAdvice
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping("/course")
+@RequestMapping("/courses")
 public class CourseController {
 
     @Autowired
     private CourseService courseService;
 
     @GetMapping
-    public List<Course> getCourse() {
-        return courseService.getAllCourse();
+    public Page<Course> getCourse(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return courseService.getAllCourse(page, size);
     }
 
     @PostMapping
-    public String addCourse(@RequestBody Course course) {
+    public String addCourse(@Valid @RequestBody Course course) {
         courseService.addCourse(course);
         return "New course added";
     }
